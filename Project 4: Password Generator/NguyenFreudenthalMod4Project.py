@@ -1,47 +1,93 @@
 """
   * Class: 44-141 Computer Programming I
-  * Author: Denny Nguyen
-  * Description: Making an ISBN Validator program for a Publishing Company
-  * Due: 4/3/2019
+  * Author: Jacob Freudenthal and Denny Nguyen
+  * Description: check to see if password meets the requirement, generating password, ending loot on command.
+  * Due: 3/19/2019
   * I pledge that I have completed the programming assignment independently.
   * I have not copied the code from a student or any source.
   * I have not given my code to any other student and will not share this code with anyone under any circumstances
 """
-#defining remove dash, inspect format and valid ISBN
-def removeDashes(isbnNum):
-    return isbnNum.replace('-', '')
+#import random
+import random
 
-def inspectFormat(isbnNum):
-    if (len(isbnNum)==10 and isbnNum[:-1].isdigit() and (isbnNum[-1] == "X" or isbnNum[-1].isdigit())):
-        return True
-    return False
-    
-def validISBN(isbnNum):
-    value = list(isbnNum)
-    sum = 0
-    if(value[-1] == "X"):
-            value[-1]=10
-    for i in range(10):
-        sum += (10-i) * int(value[i])
-    if(sum%11 == 0):
-        return True
-    return False
+#menu/commands
+print("**Menu**")
 
-#creating a validation.txt file to make the ISBN number valid, not valid or not properly formatted
-fileName = input('Enter a filename: ')
-inputFile = open(fileName, "r")
-outputFile=open("validation.txt", "w")
-for line in inputFile:
-    check = line.strip()
-    noDash = removeDashes(check)
-    if (not inspectFormat(noDash)):
-        outputFile.write("The ISBN number: "+noDash+" is not properly formatted. \n")
-    elif (not validISBN(noDash)):
-        outputFile.write("The ISBN number: "+noDash+" is not valid.\n")
-    else:
-        outputFile.write("The ISBN number: "+noDash+" is valid.\n")
-print("ISBN-Validation Program Done")
+print("'a' to enter a password to check")
+print("'d' to generate a password or")
+print("'q' to quit")
 
-#closing txt file.
-inputFile.close()
-outputFile.close()
+#variables
+nottt = "true"
+lower = 0
+cap = 0
+num = 0
+count = 0
+size = 0
+generate = 0
+character1 = ""
+gpassword = ""
+
+#entering command for the menu
+input1 = input("Enter a command: ")
+#entering password with Uppercase, lowercase & atleast 2 digits
+while (input1 != "q"):
+    if (input1 == "a"):
+        password = input("Enter your password: ")
+        # for loop to go through each charecter
+        for character in password:
+                x=ord(character)
+            # Check to see if the charcter type and if enough of the type
+                if(x >=97 and x <=122):
+                    lower +=1
+                if(x >=65 and x <= 90):
+                    cap +=1
+                if(x >=48 and x <= 57):
+                    num += 1
+                if(x <=47 or (x >= 58 and x <=64) or (x >= 91 and x <=96) or x >= 123):
+                    nottt = "false"
+                count += 1
+        # Invalid inputs
+        if (count < 8):
+                    print("not enough characters")
+        elif (nottt == "false"):
+                    print("incorrect characters")
+        elif (lower < 1):
+                    print("need lowercase letters")
+        elif (cap < 1):
+                    print("not enough capital letters")
+        elif (num < 2):
+                    print("not enough digits")
+        elif (num >= 2 and cap >= 1 and lower >= 1):
+                    print(" Valid Password:",password)
+                    
+#generating a random number
+    elif (input1 == "d"):
+        generate = int(input("Enter the length of password to generate: "))
+        while (generate > 0):
+            # 1-3 to represent a lower case, uppe case and number
+                rando = random.randint(1,3)
+                if (rando == 1): 
+                        rando = random.randint(97, 122)
+                        character1 = chr(rando)
+                if (rando == 2):
+                        rando = random.randint(65, 90)
+                        character1 = chr(rando)
+                if (rando == 3):
+                        rando = random.randint(48, 57)
+                        character1 = chr(rando)
+                gpassword +=character1
+                # count down the gerneate number until 0
+                generate -= 1
+        print (gpassword)
+        
+#loop command for user to reenter command
+    print("**Menu**")
+    print("'a' to enter a password to check")
+    print("'d' to generate a password or")
+    print("'q' to quit")
+    input1 = input("Enter a command: ")
+
+        
+#entering q to quit outside of loop
+print("Thank you for using the password machine!")
