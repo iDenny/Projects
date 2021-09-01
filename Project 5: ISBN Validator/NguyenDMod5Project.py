@@ -45,8 +45,3 @@ print("ISBN-Validation Program Done")
 #closing txt file.
 inputFile.close()
 outputFile.close()
-
-    
-
-    
-    
